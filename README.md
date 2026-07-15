@@ -43,20 +43,22 @@ Authentication is JWT-based (`Authorization: Bearer <token>`). Unless noted, end
 
 | Method | Path | Security |
 |---|---|---|
-| POST | `/register` | Authenticated |
+| POST | `/register` | **ADMIN** role |
 | GET | `/` (paginated) | Authenticated |
 | GET | `/{productId}` | Authenticated |
-| PUT | `/update` | Authenticated |
+| PUT | `/update` | **ADMIN** role |
 | DELETE | `/{productId}` (soft delete) | **ADMIN** role |
 
 ### Categories — `/api/categories`
 
+All `/api/categories/**` endpoints require the **ADMIN** role (not just the `GET` reads):
+
 | Method | Path | Security |
 |---|---|---|
-| POST | `/register` | Authenticated |
-| GET | `/` | Authenticated |
-| GET | `/category?categoriesId=1,2` | Authenticated |
-| PUT | `/update` | Authenticated |
+| POST | `/register` | **ADMIN** role |
+| GET | `/` | **ADMIN** role |
+| GET | `/category?categoriesId=1,2` | **ADMIN** role |
+| PUT | `/update` | **ADMIN** role |
 | DELETE | `/{categoryId}` | **ADMIN** role |
 
 ### Orders — `/api/orders`
