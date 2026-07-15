@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Claude / internal docs ###
+CLAUDE.md
+pending-tasks.md
+pending-order-tasks.md
+pending-overall-tasks.md
+product-business-rules.md
+user-business-rules.md
+order-business-rules.md
