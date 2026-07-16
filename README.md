@@ -2,6 +2,8 @@
 
 Spring Boot e-commerce service organized around **hexagonal (ports & adapters) architecture**. The `User`, `Product`, `Category`, and `Order` verticals are wired end-to-end: domain → ports → application → persistence adapter → web adapter.
 
+The project is **dockerized**: a multi-stage `Dockerfile` builds and runs the app, and `docker-compose.yml` wires it up together with its own PostgreSQL container, so the whole stack runs with a single `docker compose up --build` — see [How to run](#how-to-run).
+
 ## Technologies
 
 - **Java 21**
@@ -10,6 +12,7 @@ Spring Boot e-commerce service organized around **hexagonal (ports & adapters) a
 - **Spring Security** for authentication/authorization
 - **JJWT** (`io.jsonwebtoken`, 0.12.6) for JWT issuing/validation
 - **Lombok** (compile-time only, excluded from the packaged jar)
+- **Docker** + **Docker Compose** for containerized builds/runs (multi-stage `Dockerfile`, `docker-compose.yml` with an `app` + `db` service)
 - **JUnit 5 / Mockito / Testcontainers (PostgreSQL)** for testing
 
 ## Architecture
