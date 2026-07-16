@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:18
+    container_name: e-commerce-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: e_commerce
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d e_commerce"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: e-commerce-app
+    ports:
+      - "8080:8080"
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: e_commerce
+      DB_USERNAME: postgres
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

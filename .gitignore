@@ -32,6 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
+### Docker env ###
+.env
+
 ### Claude / internal docs ###
 CLAUDE.md
 pending-tasks.md
