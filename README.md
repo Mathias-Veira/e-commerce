@@ -80,6 +80,29 @@ All `/api/categories/**` endpoints require the **ADMIN** role (not just the `GET
 
 ## How to run
 
+### With Docker (recommended)
+
+Requires **Docker** and **Docker Compose**. This spins up the app and a PostgreSQL container together, with Postgres schema created automatically on first boot (`spring.jpa.hibernate.ddl-auto=update`).
+
+1. Clone the repo:
+   ```bash
+   git clone <repo-url>
+   cd e-commerce
+   ```
+2. Create a `.env` file in the project root (gitignored — see `.env.example`) with the required environment variables:
+   ```
+   SECRET_KEY=<a-secret-at-least-32-bytes-long>
+   DB_PASSWORD=<a-postgres-password>
+   ```
+3. Build and start the containers:
+   ```bash
+   docker compose up --build
+   ```
+
+This starts a `db` service (PostgreSQL) and an `app` service (the Spring Boot API on `http://localhost:8080`), with the app waiting for Postgres to be healthy before starting.
+
+### Without Docker
+
 Requires **JDK 21** and a running **PostgreSQL** instance matching `application.properties` (`jdbc:postgresql://localhost:5432/e_commerce`).
 
 A `SECRET_KEY` environment variable is **required** to start the app — it must be long enough for HMAC-SHA (≥ 32 bytes). Without it, context startup fails.
