@@ -4,6 +4,8 @@ Spring Boot e-commerce service organized around **hexagonal (ports & adapters) a
 
 The project is **dockerized**: a multi-stage `Dockerfile` builds and runs the app, and `docker-compose.yml` wires it up together with its own PostgreSQL container, so the whole stack runs with a single `docker compose up --build` — see [How to run](#how-to-run).
 
+The project is **deployed on an AWS EC2 server**. Deployment is automated through a **CI/CD pipeline built with GitHub Actions** (`.github/workflows/deploy.yml`), which builds and tests the app, pushes a Docker image to Docker Hub, and then deploys that Docker container to the EC2 server — see [Deployment](#deployment).
+
 ## Technologies
 
 - **Java 21**
@@ -125,6 +127,16 @@ Build a jar:
 ```bash
 ./mvnw clean package
 ```
+
+## Deployment
+
+The app runs in production on an **AWS EC2** server, deployed as a Docker container.
+
+Deployment is fully automated via a **CI/CD pipeline in GitHub Actions** (`.github/workflows/deploy.yml`), which on every push to `main` runs three jobs in sequence:
+
+1. **Build and run tests** — builds the project and runs the test suite.
+2. **Build and push Docker image** — builds the Docker image and pushes it to Docker Hub, tagged `latest` and with the commit SHA.
+3. **Deploy to EC2 server** — connects to the EC2 instance over SSH, copies the `docker-compose.prod.yml` and a generated `.env` file (populated from GitHub Secrets), then pulls and starts the new image with `docker compose`, replacing the previously running container.
 
 ## How to run tests
 
