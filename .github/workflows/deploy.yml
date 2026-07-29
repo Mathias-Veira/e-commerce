@@ -12,6 +12,7 @@ on:
 
 jobs:
   test:
+    name: Build and run tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,6 +25,9 @@ jobs:
           java-version: '21'
           cache: maven
 
+      - name: Grant execute permission to mvnw
+        run: chmod +x ./mvnw
+
       - name: Run tests
         env:
           # Only used for tests on CI. Not the real production secret.
@@ -31,6 +35,7 @@ jobs:
         run: ./mvnw test -B
 
   build-and-push:
+    name: Build and push Docker image
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -58,6 +63,7 @@ jobs:
           cache-to: type=gha,mode=max
 
   deploy:
+    name: Deploy to EC2 server
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
