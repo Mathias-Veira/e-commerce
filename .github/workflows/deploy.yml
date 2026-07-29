@@ -32,7 +32,8 @@ jobs:
         env:
           # Only used for tests on CI. Not the real production secret.
           SECRET_KEY: ci-test-secret-key-must-be-at-least-32-bytes-long
-        run: ./mvnw test -B
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: ./mvnw test -B -e
 
   build-and-push:
     name: Build and push Docker image
