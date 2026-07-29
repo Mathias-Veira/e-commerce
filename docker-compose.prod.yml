@@ -13,11 +13,10 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    restart: unless-stopped
 
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ${DOCKERHUB_USERNAME}/e-commerce:${IMAGE_TAG:-latest}
     container_name: e-commerce-app
     ports:
       - "8080:8080"
@@ -31,6 +30,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    restart: unless-stopped
 
 volumes:
   pgdata:
